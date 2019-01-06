@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>保存</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+</head>
+<body>
+    <form id="frm">
+        <input type="hidden" name="code.Id" value="0" />
+        <label>类型：</label>
+        <input name="code.Type" type="text" placeholder="Html,Css,C#..." value="" /><br />
+        <label>子分类：</label>
+        <input name="code.ChildType" type="text" placeholder="EasyUI,Layer..." value="" /><br />
+        <label>标题：</label>
+        <input name="code.Name" type="text" value="" /><br />
+        <label>描述：</label>
+        <textarea name="code.Description" rows="5" cols="50"></textarea><br />
+        <label>代码：</label>
+        <textarea name="code.Code" rows="30" cols="150"></textarea><br />
+        <a onclick="Sub();">提交</a>
+        <button type="reset">重置</button>
+    </form>
+    <script type="text/javascript">
+        var Sub = function () {
+            var postdata = {};
+            $('input,textarea').each(function () {
+                postdata[$(this).attr('name')] = $(this).val();
+            });
+
+            $.ajax({
+                url: '@Url.Action("Save")',
+                type: 'POST',
+                data: postdata,
+                success: function (Json) {
+                    if (Json.Success) {
+                        alert('添加成功');
+                        window.location.reload();
+                    }
+                    else {
+                        alert(Json.Message);
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
